@@ -12,6 +12,7 @@ public abstract class Character{
 
 	boolean inEncounter, firstStrike;
 	double velocity, direction, x, y, maxVelocity;
+	String imageLocation;
 	Weapon equipped;
 	Tomes tomes_casting;
 	Attacks attack_casting;
