@@ -11,7 +11,7 @@ public abstract class Character{
 	int invSlots, attack, defense, accuracy, agility, intelligence, crafting, health;
 
 	boolean inEncounter, firstStrike;
-	double velocity, direction, x, y, maxVelocity;
+	double xvelocity, yvelocity, velocity, direction, x, y, maxVelocity;
 	String imageLocation;
 	Weapon equipped;
 	Tomes tomes_casting;
@@ -131,13 +131,22 @@ public abstract class Character{
 	}
 	
 	//Velocity of a character (pixels per second)
-	public double getVelocity() {
-		return velocity;
+	public double getXvelocity() {
+		return xvelocity;
 	}
-	public void setVelocity(double velocity) {
-		//use changeVelocity preferably
-		this.velocity = velocity;
+
+	public void setXvelocity(double xvelocity) {
+		this.xvelocity = xvelocity;
 	}
+
+	public double getYvelocity() {
+		return yvelocity;
+	}
+
+	public void setYvelocity(double yvelocity) {
+		this.yvelocity = yvelocity;
+	}
+
 //	public void changeVelocity(double dt){
 //		if(xVelocity > maxVelocity)
 //			xVelocity = maxVelocity;
@@ -146,6 +155,14 @@ public abstract class Character{
 //		xVelocity = acceleration*dt;
 //	}
 	
+	public double getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(double velocity) {
+		this.velocity = velocity;
+	}
+
 	//changes the direction of a character. angle in radians
 	public void changeDirection(double angle) { 
 		if(angle < 0 || angle > (2*Math.PI))

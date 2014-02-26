@@ -4,7 +4,7 @@ public class Player extends Character{
 	
 	boolean inEncounter;
 	public Player(){
-		velocity = 100;
+		velocity = 200;
 	}
 	public void move(double angle) {
 		changeDirection(angle);

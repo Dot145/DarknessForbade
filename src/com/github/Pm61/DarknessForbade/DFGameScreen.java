@@ -28,9 +28,6 @@ public class DFGameScreen implements Screen {
 	Player player;
 	Rectangle playerHitbox;
 	
-	Skeleton skeleton;
-	Rectangle skeletonHitbox;
-	
 	BitmapFont font;
 	
 	public DFGameScreen(final DFGame game){
@@ -42,7 +39,6 @@ public class DFGameScreen implements Screen {
 		font = new BitmapFont();
 		backgroundImage = new Sprite(new Texture(Gdx.files.internal("media/textures/background.bmp")));
 		playerImage = new Texture(Gdx.files.internal("media/textures/playerImage.png"));
-		skeletonImage = new Texture(Gdx.files.internal("media/textures/playerImage.png"));
 		torchFilter = new Sprite(new Texture(Gdx.files.internal("media/textures/EncounterFilter.png")));
 		
 		backgroundImage.setOrigin(0,0);
@@ -61,24 +57,12 @@ public class DFGameScreen implements Screen {
 		playerHitbox.y = (float) player.getY();
 		playerHitbox.width = playerImage.getWidth();
 		playerHitbox.height = playerImage.getHeight();
-		
-		skeleton = new Skeleton();
-		skeleton.setX(MathUtils.random(WORLD_X_ORIGIN+(SIZE_X/2),WORLD_X_ORIGIN+backgroundImage.getWidth()-(SIZE_X/2)));
-		skeleton.setY(MathUtils.random(WORLD_Y_ORIGIN+(SIZE_Y/2),WORLD_Y_ORIGIN+backgroundImage.getHeight()-(SIZE_Y/2)));
-		
-		skeletonHitbox = new Rectangle();
-	    skeletonHitbox.x = (float) skeleton.getX();
-	    skeletonHitbox.y = (float) skeleton.getY();
-	    skeletonHitbox.width = skeletonImage.getWidth();
-	    skeletonHitbox.height = skeletonImage.getHeight();
-
 	}
 	@Override
 	public void dispose() {
 		batch.dispose();
 		playerImage.dispose();
 		font.dispose();
-		skeletonImage.dispose();
 	}
 
 	@Override
@@ -101,44 +85,35 @@ public class DFGameScreen implements Screen {
 		batch.begin();
 		backgroundImage.draw(batch);
 		batch.draw(playerImage, (float) player.getX(), (float) player.getY());
-		batch.draw(skeletonImage, (float) skeleton.getX(), (float) skeleton.getY());
 		torchFilter.draw(batch);
 		batch.end();
-		if(playerHitbox.overlaps(skeletonHitbox)){
-			game.setScreen(new DFMainMenu(game));
+		player.setXvelocity(0);
+		player.setYvelocity(0);
+		if(Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.D) && player.getX()>WORLD_X_ORIGIN){
+			player.setXvelocity(-player.getVelocity());
+			player.setX( player.getX() + (player.getXvelocity() * Gdx.graphics.getDeltaTime()));
 		}
-		if(Gdx.input.isKeyPressed(Keys.LEFT)){
-			player.setX( player.getX() - (player.getVelocity() * Gdx.graphics.getDeltaTime()));
-			if(player.getX()>WORLD_X_ORIGIN+(SIZE_X/2)){
-				camera.translate((float) -player.getVelocity()*Gdx.graphics.getDeltaTime(), 0);
-				torchFilter.translate((float) -player.getVelocity()*Gdx.graphics.getDeltaTime(), 0);
-			}
-			camera.update();
+		if(Gdx.input.isKeyPressed(Keys.W) && !Gdx.input.isKeyPressed(Keys.S) && player.getY()<WORLD_Y_ORIGIN+backgroundImage.getHeight()-playerImage.getHeight()){
+			player.setYvelocity(player.getVelocity());
+			player.setY( player.getY() + (player.getYvelocity() * Gdx.graphics.getDeltaTime()));
 		}
-		if(Gdx.input.isKeyPressed(Keys.UP)){
-			player.setY( player.getY() + (player.getVelocity() * Gdx.graphics.getDeltaTime()));
-			if(player.getY()<WORLD_Y_ORIGIN+backgroundImage.getHeight()-(SIZE_Y/2)){
-				camera.translate(0,(float) player.getVelocity()*Gdx.graphics.getDeltaTime());
-				torchFilter.translate(0,(float) player.getVelocity()*Gdx.graphics.getDeltaTime());
-			}
-			camera.update();
+		if(Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A) && player.getX()<WORLD_X_ORIGIN+backgroundImage.getWidth()-playerImage.getWidth()){
+			player.setXvelocity(player.getVelocity());
+			player.setX( player.getX() + (player.getXvelocity() * Gdx.graphics.getDeltaTime()));
 		}
-		if(Gdx.input.isKeyPressed(Keys.RIGHT)){
-			player.setX( player.getX() + (player.getVelocity() * Gdx.graphics.getDeltaTime()));
-			if(player.getX()<WORLD_X_ORIGIN+backgroundImage.getWidth()-(SIZE_X/2)){
-				camera.translate((float) player.getVelocity()*Gdx.graphics.getDeltaTime(), 0);
-				torchFilter.translate((float) player.getVelocity()*Gdx.graphics.getDeltaTime(), 0);
-			}
-			camera.update();
+		if(Gdx.input.isKeyPressed(Keys.S) && !Gdx.input.isKeyPressed(Keys.W) && player.getY()>WORLD_Y_ORIGIN){
+			player.setYvelocity(-player.getVelocity());
+			player.setY( player.getY() + (player.getYvelocity() * Gdx.graphics.getDeltaTime()));
 		}
-		if(Gdx.input.isKeyPressed(Keys.DOWN)){
-			player.setY( player.getY() - (player.getVelocity() * Gdx.graphics.getDeltaTime()));
-			if(player.getY()>WORLD_Y_ORIGIN+(SIZE_Y/2)){
-				camera.translate(0,(float) -player.getVelocity()*Gdx.graphics.getDeltaTime());
-				torchFilter.translate(0,(float) -player.getVelocity()*Gdx.graphics.getDeltaTime());
-			}
-			camera.update();
+		if(player.getX()>WORLD_X_ORIGIN+(SIZE_X/2) && player.getX()<WORLD_X_ORIGIN+backgroundImage.getWidth()-(SIZE_X/2)){
+			camera.translate((float) player.getXvelocity()*Gdx.graphics.getDeltaTime(),0);
+			torchFilter.translate((float) player.getXvelocity()*Gdx.graphics.getDeltaTime(),0);
 		}
+		if(player.getY()>WORLD_Y_ORIGIN+(SIZE_Y/2) && player.getY()<WORLD_Y_ORIGIN+backgroundImage.getHeight()-(SIZE_Y/2)){
+			camera.translate(0,(float) player.getYvelocity()*Gdx.graphics.getDeltaTime());
+			torchFilter.translate(0,(float) player.getYvelocity()*Gdx.graphics.getDeltaTime());
+		}
+		camera.update();
 		playerHitbox.setX((float) player.getX());
 		playerHitbox.setY((float) player.getY());
 	}
