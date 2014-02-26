@@ -43,7 +43,7 @@ public class DFGameScreen implements Screen {
 		backgroundImage = new Sprite(new Texture(Gdx.files.internal("media/textures/background.bmp")));
 		playerImage = new Texture(Gdx.files.internal("media/textures/playerImage.png"));
 		skeletonImage = new Texture(Gdx.files.internal("media/textures/playerImage.png"));
-		torchFilter = new Sprite(new Texture(Gdx.files.internal("media/textures/torchFilter.png")));
+		torchFilter = new Sprite(new Texture(Gdx.files.internal("media/textures/EncounterFilter.bmp")));
 		
 		backgroundImage.setOrigin(0,0);
 		backgroundImage.setPosition(WORLD_X_ORIGIN, WORLD_Y_ORIGIN);
