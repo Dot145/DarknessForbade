@@ -10,8 +10,8 @@ public abstract class Character{
 	ArrayList<Item> inventory;
 	int invSlots, attack, defense, accuracy, agility, intelligence, crafting, health;
 
-	boolean inEncounter, firstStrike;
-	double xvelocity, yvelocity, velocity, direction, x, y, maxVelocity;
+	boolean inEncounter, firstStrike, torch;
+	double xvelocity, yvelocity, speed, direction, x, y, maxVelocity;
 	String imageLocation;
 	Weapon equipped;
 	Tomes tomes_casting;
@@ -155,20 +155,20 @@ public abstract class Character{
 //		xVelocity = acceleration*dt;
 //	}
 	
-	public double getVelocity() {
-		return velocity;
+	public double getSpeed() {
+		return speed;
 	}
 
-	public void setVelocity(double velocity) {
-		this.velocity = velocity;
+	public void setSpeed(double speed) {
+		this.speed = speed;
 	}
 
 	//changes the direction of a character. angle in radians
-	public void changeDirection(double angle) { 
-		if(angle < 0 || angle > (2*Math.PI))
-			angle %= 2*Math.PI;
-		direction = angle;
-	}
+//	public void changeDirection(double angle) { 
+//		if(angle < 0 || angle > (2*Math.PI))
+//			angle %= 2*Math.PI;
+//		direction = angle;
+//	}
 //	
 //	//acceleration of a character
 //	public double getAcceleration() {
@@ -190,6 +190,14 @@ public abstract class Character{
 	}
 	public void setY(double y) {
 		this.y = y;
+	}
+
+	public boolean isTorch() {
+		return torch;
+	}
+
+	public void setTorch(boolean torch) {
+		this.torch = torch;
 	}
 	
 }
